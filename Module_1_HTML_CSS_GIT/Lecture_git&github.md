@@ -4,12 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="../styles/styles.css" />
-<title>OOP in JavaScript</title>
+<title>Git & GitHub</title>
 </head>
 
 <body>
 <header class="header">
-<h1><b>OOP</b> (Object Oriented Programming) in JavaScript</h1>
+<h1><b>Git & GitHub</b> VCS (Version Control System)</h1>
 </header>
 
 <nav class="nav">
@@ -513,7 +513,7 @@ git push -u origin main
 
 ### Team Work:
 
-1. To enable others to work wit you first you need to invite them from settings/collaborators.
+1. To enable others to work with you first you need to invite them from settings/collaborators.
 2. Once they accepted the invitation, They will be able to clone your repo using
    <br><b>git clone https://github.com/BasharAlwarad/OurProject.git</b>
 

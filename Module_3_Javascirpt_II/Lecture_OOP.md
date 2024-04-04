@@ -45,20 +45,16 @@ console.log(getJohnFullName()); // Output: John Doe
 2. Organizing Data into manageable and reusable components such as Objects.
 
 ```js
-const johnObject = {
+const john = {
   fName: 'John',
   lName: 'Doe',
-  age: 20,
-  getFullName: () => `${johnObject['fName']} ${johnObject.lName}`,
-  getFullNameAndAge: function () {
-    return `${this['fName']} ${this.lName} ${this.age}`;
-  },
+  getFullName: () => `${john['fName']} ${john.lName}`,
 };
-console.log(johnObject); // Output: { fName: 'John', lName: 'Doe', age: 20, getFullName: [Function (anonymous)], getFullNameAndAge: [Function: getFullNameAndAge] }
-console.log(johnObject.fName); // Output: John
-console.log(johnObject['lName']); // Output: Doe
-console.log(johnObject.getFullName()); // Output: John Doe
-console.log(johnObject.getFullNameAndAge()); // Output: John Doe 20
+
+console.log(john); // Output: { fName: 'John', lName: 'Doe', getFullName: [Function (anonymous)]}
+console.log(john.fName); // Output: John
+console.log(john['lName']); // Output: Doe
+console.log(john.getFullName()); // Output: John Doe
 ```
 
 </li>
@@ -68,10 +64,10 @@ console.log(johnObject.getFullNameAndAge()); // Output: John Doe 20
 
 1. Allows data and methods to be bundled together in an object.
 2. Organizing and protecting the internal workings of an object.
-3. Ensuring that its state and behavior are accessed and modified only through well-defined interfaces.
+3. Ensuring that data state and behavior are accessed and modified only through well-defined interfaces.
 
 ```js
-const johnFunc = function (fName, lName) {
+const john = function (fName, lName) {
   return {
     getFullName: function () {
       return `${fName} ${lName}`;
@@ -82,8 +78,8 @@ const johnFunc = function (fName, lName) {
   };
 };
 
-console.log(johnFunc('John', 'Doe').getFullName()); // Output: John Doe
-console.log(johnFunc('John', 'Doe').getNameAndAge('20')); // Output: John Doe 20
+console.log(john('John', 'Doe').getFullName()); // Output: John Doe
+console.log(john('John', 'Doe').getNameAndAge('20')); // Output: John Doe 20
 ```
 
 </li>
@@ -110,10 +106,10 @@ this.open('http://localhost:3000'); // open a new tab with the given URL
 
 ```js
 const regular = function () {
-  console.log(this); // this refers to the global object or undefined in strict mode
+  console.log(this);
 };
 const arrow = () => {
-  console.log(this); // this refers to the parent object
+  console.log(this);
 };
 const objFunc = {
   label: 'I am an Object',
@@ -168,7 +164,7 @@ john['fName'] = 'John';
 john.lName = 'Doe';
 
 john.getFullName = function () {
-  return `${this['fName']} ${this['lName']}`;
+  return `${this.['fName']} ${this.['lName']}`;
 };
 
 console.log(john.getFullName()); // Output: John Doe
@@ -182,12 +178,12 @@ console.log(john.getFullName()); // Output: John Doe
 ```js
 const john = {};
 
-john.fName = 'John';
+john['fName'] = 'John';
 
 john.lName = 'Doe';
 
 john.getFullName = function () {
-  return `${this['fName']} ${this['lName']}`;
+  return `${this.['fName']} ${this.['lName']}`;
 };
 
 const karl = { ...john, fName: 'Karl' };
@@ -227,6 +223,8 @@ console.log(karl.getFullName()); // Output: Karl Doe
 
 ### Prototype property and Constructor property.
 
+- because assigning a property to an object is exclusive to his object only.
+
 ```js
 function Person(fName, lName) {
   this.fName = fName;
@@ -249,6 +247,8 @@ console.log(karl.getFullName()); // Output: TypeError: karl.getFullName is not a
 
 ### Example about Prototype property and constructor property.
 
+- while assigning a property to the prototype will have effect on every object created from that constructor.
+
 ```js
 function Person(fName, lName) {
   this.fName = fName;
@@ -270,6 +270,9 @@ console.log(karl.getFullName()); // Output: Karl Doe
 <li>
 
 ### Adding custom methods to the JS Object.
+
+- if everything in Js is an object, that means everything has prototype properties.
+- that means we can add, delete, or alter any object prototype properties.
 
 ```js
 Object.prototype.x = function () {
@@ -376,9 +379,9 @@ function Employ(fName, LName, email) {
   };
 }
 
-const Michel = new Employ('Michel', 'James', 'MJ@google.com');
+const Micheal = new Employ('Micheal', 'James', 'MJ@google.com');
 
-console.log(Michel.getEmployData()); // Output: Michel James
+console.log(Micheal.getEmployData()); // Output: Micheal James
 ```
 
 </li>
@@ -560,7 +563,7 @@ console.log(john.fullName); // Gorge Dwo
 3. Object.setPrototypeOf() is a deep copy, instance method, and mutable
 4. Object.defineProperty() is a deep copy, instance method, and mutable
 
-### Shallow VS Deep copying
+### Arrow functions in OOP
 
 1. Arrow functions do not have prototype property.
 2. Arrow functions do not have their own this. The value of this inside an arrow function remains the same throughout the lifecycle of the function and is always bound to the value of this in the closest non-arrow parent function.

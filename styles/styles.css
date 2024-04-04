@@ -97,6 +97,22 @@ h1 {
 b {
   color: rgb(0, 51, 204);
 }
+
+table,
+thead {
+  border: 1px solid black;
+}
+
+table thead tr th.th {
+  background-color: gray;
+  border: 1px solid black;
+}
+table tbody tr td.td {
+  background-color: rgb(231, 231, 191);
+  border: 1px solid black;
+  min-height: 3rem;
+}
+
 @media (max-width: 800px) {
   .nav,
   .header,
