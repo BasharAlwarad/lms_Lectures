@@ -27,9 +27,10 @@
 
 ### Why SQL?
 
-1. SQL was invented by Donald Chamberlin and Raymond Boyce at IBM in the early 1970s.
-2. Before SQL, each database system had its own unique language for managing data, making it difficult to work with multiple systems or migrate data between them.
-3. SQL was invented to provide a standardized language for interacting with relational databases. 4. Here is an example of merging two different data structure int one object by using vanilla js.
+1. Before SQL, each database system had its own unique language for managing data, making it difficult to work with multiple systems or migrate data between them.
+2. For this reason two IBM engineries Donald Chamberlin and Raymond Boyce invented SQL in the early 1970s.
+3. SQL was invented to provide a standardized language for interacting with relational databases.
+4. Here is an example of merging two different data structure into one object by using vanilla js.
 
 ```js
 const userData = [
@@ -79,8 +80,6 @@ FROM users u
 JOIN relational_data r ON u.id = r.user_id;
 ```
 
-6. How is that applicable in a real-world scenario?
-
 </li>
 </ul>
 </section>
@@ -90,6 +89,84 @@ JOIN relational_data r ON u.id = r.user_id;
 <li>
 
 ### RDBMS Relational Database Management System
+
+#### there are many RDBMS s like MySQL, PostgreSQL, Oracle etc. they all offer ways to interact with the database using SQL.
+
+1. Data Organization: RDBMS organizes data into tables, where each table consists of rows and columns.
+<br> or Tuples and Attributes
+<table>
+  <thead>
+    <tr>
+      <th class="th"> Attribute</th>
+      <th class="th"> Attribute</th>
+      <th class="th"> Attribute</th>
+      <th class="th"> Attribute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+    </tr>
+    <tr>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+    </tr>
+    <tr>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+      <td class="td"> Tuple</td>
+    </tr>
+  </tbody>
+</table>
+
+- a real example will be like:
+
+<br>
+<table>
+  <thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td">1</td>
+      <td class="td">John</td>
+      <td class="td">Doe</td>
+      <td class="td">18</td>
+    </tr>
+    <tr>
+      <td class="td">2</td>
+      <td class="td">Bob</td>
+      <td class="td">Dylan</td>
+      <td class="td">30</td>
+    </tr>
+    <tr>
+      <td class="td">3</td>
+      <td class="td">Jane</td>
+      <td class="td">Doe</td>
+      <td class="td">25</td>
+    </tr>
+  </tbody>
+</table>
+
+2. Data Integrity: Adding constraints such as primary keys, foreign keys, unique constraints, and check constraints.
+3. ACID Properties: Adhering to the ACID properties: Atomicity, Consistency, Isolation, and Durability.
+4. Relationships: Supports relationships between tables through foreign keys.
+5. Normalization: A process of organizing data to minimize redundancy and dependency.
+6. Indexing: Indexing of columns improves query performance.
+7. Concurrency Control: Managing simultaneous access to data by multiple users or processes.
+8. Backup and Recovery: Protecting against data loss.
+9. Scalability and Performance: Handling growing data volumes and user loads across multiple servers. by using sharding, replication, and partitioning.
 
 </li>
 </ul>
@@ -159,7 +236,7 @@ CREATE TABLE users (       -- Create a table with the name users
   </tbody>
 </table>
 
-3. <a href="https://www.sqltutorial.org/sql-cheat-sheet/">SQL data types </a>
+3.  SQL data types <a href="https://www.sqltutorial.org/sql-cheat-sheet/">READ MORE!</a>
 </li>
 <li>
 
@@ -169,8 +246,9 @@ CREATE TABLE users (       -- Create a table with the name users
    <br> we need to <b>INSERT</b> data in the <b>TABLE</b>.
 
 ```sql
-INSERT INTO users (first_name, last_name, age) -- Insert in (first_name, last_name,age) from table users
-VALUES ('John', 'Doe', 18);                    -- values are John Doe 18
+INSERT INTO users (first_name, last_name, age) -- Insert in table users
+                                               -- in columns |first_name| last_name| age|
+VALUES ('John', 'Doe', 18);                    -- values are |John      | Doe      | 18 |
 ```
 
 <br>
@@ -196,6 +274,7 @@ VALUES ('John', 'Doe', 18);                    -- values are John Doe 18
 2. Notes to remember:
 
    - use Uppercase for SQL commands.
+   - use a new line for each SQL command for better readability.
    - use single quotes always for the values.
    - use semicolon at the end of each command.
    </li>
@@ -205,10 +284,11 @@ VALUES ('John', 'Doe', 18);                    -- values are John Doe 18
 ### INSERT many rows at once.
 
 ```sql
-INSERT INTO users (first_name, last_name, age) -- Insert in (first_name, last_name,age) from table users
-VALUES ('John', 'Doe', 18),                    -- values are John Doe 18
-       ('Bob', 'Dylan', 30),                   -- values are Bog Dylan 30
-       ('Jane', 'Doe', 25);                    -- values are Jane Doe 25
+INSERT INTO users (first_name, last_name, age) -- Insert table users
+                                               -- in columns |first_name|last_name|age
+VALUES ('John', 'Doe', 18),                    -- values are |John      |Doe      |18
+       ('Bob', 'Dylan', 30),                   -- values are |Bob       |Dylan    |30
+       ('Jane', 'Doe', 25);                    -- values are |Jane      |Doe      |25
 ```
 
 <br>
@@ -248,7 +328,7 @@ VALUES ('John', 'Doe', 18),                    -- values are John Doe 18
 
 ### CRUD Functionality in SQL.
 
-1. when dealing with data usually we need to interact whit it in one of the <i>CRUD</i> methods
+1. when dealing with data usually we need one of the <i>CRUD</i> interact methods
    <br> create, read, update, delete
 
 2. we learn how to create with <b>INSERT</b>,
@@ -261,6 +341,14 @@ FROM users; -- from table users
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td class="td">1</td>
@@ -306,14 +394,25 @@ FROM users;        -- from table users
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
+      <td class="th"></td>
       <td class="td">John</td>
     </tr>
     <tr>
+      <td class="th"></td>
       <td class="td">Bob</td>
     </tr>
     <tr>
+      <td class="th"></td>
       <td class="td">Jane</td>
     </tr>
   </tbody>
@@ -329,7 +428,7 @@ const users = [
 ];
 ```
 
-4. we can get/read multiple columns
+4. We can get or read multiple columns. For example, we want to retrieve first_name and last_name.
 
 ```sql
 SELECT first_name, last_name  --  will return first names and last_names columns
@@ -338,16 +437,27 @@ FROM users                    -- from table users
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
+      <td class="th"></td>
       <td class="td">John</td>
       <td class="td">Doe</td>
     </tr>
     <tr>
+      <td class="th"></td>
       <td class="td">Bob</td>
       <td class="td">Dylan</td>
     </tr>
     <tr>
+      <td class="th"></td>
       <td class="td">Jane</td>
       <td class="td">Doe</td>
     </tr>
@@ -375,7 +485,7 @@ const users = [
 
 ### How to filter data in SQL?
 
-1. We managed to read/get data from the table from each single row. But how do we get specific rows based on certain conditions?
+1. We managed to read or get data from the table from each single row. But how could we get specific rows based on certain conditions?
 
 - Use <b>WHERE</b> clause to specify conditions for filtering rows.
 - get all users if only they are above 18 years old!
@@ -388,6 +498,14 @@ WHERE age > 18  --  filter out columns with age value > 18
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td class="td">2</td>
@@ -424,11 +542,19 @@ const users = [
 SELECT *                --  will return all rows
 FROM users              --  from table users
 WHERE age > 18          --  filter out rows with age value > 18
-AND last_name = 'Doe'   --  only keep rows where column "last_name" has a value of 'Doe'
+AND last_name = 'Doe'   --  only keep rows where column "last_name" = 'Doe'
 ```
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td class="td">1</td>
@@ -451,7 +577,7 @@ const users = [{ first_name: 'Jane', last_name: 'Doe', age: '25' }];
 
 ### using LIMIT
 
-1. we can filter specify the amount of data to receive by using <b>LIMIT</b>
+1. we can specify the amount of data to be received by using <b>LIMIT</b>
 
    - this can be very useful in pagination.
 
@@ -463,6 +589,14 @@ LIMIT 2;    -- return only the first two rows
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td class="td">1</td>
@@ -493,7 +627,7 @@ const users = [
 
 ### using ORDER
 
-1. <b>ORDER BY</b> is used to sort the output
+1. <b>ORDER BY</b> is used to sort the data in ascending or descending order according.
 
 - we can use <b>DESC</b> or <b>ASC</b>
 - this can be useful when listing prices for example in a descent or ascend order.
@@ -506,6 +640,14 @@ ORDER BY age DESC;  -- in descending
 
 <br>
 <table>
+<thead>
+    <tr>
+      <th class="th">id</th>
+      <th class="th">first_name</th>
+      <th class="th">last_name</th>
+      <th class="th">age</th>
+    </tr>
+  </thead>
   <tbody>
   <tr>
       <td class="td">2</td>
