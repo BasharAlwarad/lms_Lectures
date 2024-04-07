@@ -98,19 +98,46 @@ b {
   color: rgb(0, 51, 204);
 }
 
-table,
-thead {
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+table {
   border: 1px solid black;
+  background-color: rgb(231, 231, 191);
+}
+table.orders {
+  background-color: rgb(181, 234, 124);
+}
+table.joined {
+  background-color: rgb(231, 177, 227);
 }
 
 table thead tr th.th {
   background-color: gray;
   border: 1px solid black;
 }
+table.orders thead tr th.th {
+  background-color: rgb(62, 128, 55);
+}
+table.joined thead tr th.th {
+  background-color: rgb(115, 36, 124);
+}
 table tbody tr td.td {
-  background-color: rgb(231, 231, 191);
   border: 1px solid black;
   min-height: 3rem;
+}
+table tbody tr td.specific {
+  border: 1px solid black;
+  background-color: rgb(229, 165, 165);
+  min-height: 3rem;
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 800px) {
