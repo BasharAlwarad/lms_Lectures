@@ -140,6 +140,11 @@ img {
   height: auto;
 }
 
+code {
+  background-color: black;
+  padding: 0.2rem;
+}
+
 @media (max-width: 800px) {
   .nav,
   .header,
