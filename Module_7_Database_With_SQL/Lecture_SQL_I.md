@@ -16,6 +16,8 @@
 <li><a href="#SQLEnvironment">SQL Environment</a></li>
 <li><a href="#SQLCommands">SQL Commands</a></li>
 <li><a href="#SQLConditionals">SQL Conditionals</a></li>
+<li><a href="#SQLLimit">SQL LIMIT</a></li>
+<li><a href="#SQLOrder">SQL ORDER</a></li>
 </ul >
 </nav>
 
@@ -76,8 +78,8 @@ console.log(mergedUserData);
 
 ```sql
 SELECT u.id, u.name, u.age, r.email
-FROM users u
-JOIN relational_data r ON u.id = r.user_id;
+FROM users u JOIN relational_data r
+ON u.id = r.user_id;
 ```
 
 </li>
@@ -160,11 +162,11 @@ JOIN relational_data r ON u.id = r.user_id;
 </table>
 
 2. Data Integrity: Adding constraints such as primary keys, foreign keys, unique constraints, and check constraints.
-3. ACID Properties: Adhering to the ACID properties: Atomicity, Consistency, Isolation, and Durability.
+3. ACID: Atomicity, Consistency, Isolation, and Durability.
 4. Relationships: Supports relationships between tables through foreign keys.
 5. Normalization: A process of organizing data to minimize redundancy and dependency.
 6. Indexing: Indexing of columns improves query performance.
-7. Concurrency Control: Managing simultaneous access to data by multiple users or processes.
+7. Concurrency Control: Managing many access to data by multiple users or processes.
 8. Backup and Recovery: Protecting against data loss.
 9. Scalability and Performance: Handling growing data volumes and user loads across multiple servers. by using sharding, replication, and partitioning.
 
@@ -177,7 +179,7 @@ JOIN relational_data r ON u.id = r.user_id;
 <ul>
 <li>
 
-### The similarly between Table and object
+### The similarity between Table and object
 
 1. In the pervious projects we have been receiving the data from some API in a json shape or an object.
    <br> for example:
@@ -247,8 +249,8 @@ CREATE TABLE users (       -- Create a table with the name users
 
 ```sql
 INSERT INTO users (first_name, last_name, age) -- Insert in table users
-                                               -- in columns |first_name| last_name| age|
-VALUES ('John', 'Doe', 18);                    -- values are |John      | Doe      | 18 |
+VALUES ('John', 'Doe', 18);                    -- in columns |first_name| last_name| age|
+                                               -- values are |John      | Doe      | 18 |
 ```
 
 <br>
@@ -332,7 +334,7 @@ VALUES ('John', 'Doe', 18),                    -- values are |John      |Doe    
    <br> create, read, update, delete
 
 2. we learn how to create with <b>INSERT</b>,
-   <br> and now we can read with <b>SELECT</b>
+   <br> so now we can read with <b>SELECT</b>
 
 ```sql
 SELECT *    -- return every columns
@@ -371,7 +373,7 @@ FROM users; -- from table users
   </tbody>
 </table>
 
-- Datat to the frontend will be as follows:
+- Data to the frontend will be as follows:
 
 ```js
 const users = [
@@ -428,7 +430,7 @@ const users = [
 ];
 ```
 
-4. We can get or read multiple columns. For example, we want to retrieve first_name and last_name.
+4. We can get / read multiple columns. For example, we want to retrieve first_name and last_name.
 
 ```sql
 SELECT first_name, last_name  --  will return first names and last_names columns
@@ -464,7 +466,7 @@ FROM users                    -- from table users
   </tbody>
 </table>
 
-- Datat to the frontend will be as follows:
+- Data to the frontend will be as follows:
 
 ```js
 const users = [
@@ -473,6 +475,8 @@ const users = [
   { first_name: 'Jane', last_name: 'Doe' },
 ];
 ```
+
+5. Later we will learn all the other CRUD operations (Create, Update, Read, Delete) and how to use them in a real world scenario
 
 </li>
 </ul>
@@ -485,7 +489,7 @@ const users = [
 
 ### How to filter data in SQL?
 
-1. We managed to read or get data from the table from each single row. But how could we get specific rows based on certain conditions?
+1. We managed to read / get data from the table from each single row. But how can we get specific rows based on certain conditions?
 
 - Use <b>WHERE</b> clause to specify conditions for filtering rows.
 - get all users if only they are above 18 years old!
@@ -572,6 +576,11 @@ const users = [{ first_name: 'Jane', last_name: 'Doe', age: '25' }];
 ```
 
 </li>
+</ul>
+</section>
+<section>
+<strong id="SQLLimit">SQL LIMIT</strong>
+<ul>
 
 <li>
 
@@ -623,11 +632,16 @@ const users = [
 ```
 
 </li>
+</ul>
+</section>
+<section>
+<strong id="SQLOrder">SQL ORDER</strong>
+<ul>
 <li>
 
 ### using ORDER
 
-1. <b>ORDER BY</b> is used to sort the data in ascending or descending order according.
+1. <b>ORDER BY</b> is used to sort the data in ascending or descending order.
 
 - we can use <b>DESC</b> or <b>ASC</b>
 - this can be useful when listing prices for example in a descent or ascend order.

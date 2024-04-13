@@ -98,7 +98,7 @@ listAllElements(document.documentElement);
 1. Accessing the DOM:
 
 ```js
-document.getElementById('#logo'); // return one element by ID
+document.getElementById('logo'); // return one element by ID
 document.getElementsByClassName('container'); // get many elements by the class name
 document.getElementsByTagName('li'); // return array of all <li> elements in the document
 document.querySelector('#logo'); // return the first element that matches the selector

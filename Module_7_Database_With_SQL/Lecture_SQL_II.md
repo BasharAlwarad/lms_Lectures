@@ -136,9 +136,9 @@ CREATE TABLE orders (
 </table>
 </div>
 
-2. but there is no way to know how bought what!
+2. but there is no way to know who bought what!
 
-- we can simply add the name of the person how made the order as a new column in our table Orders :
+- we can simply add the name of the person how purchased the order as a new column in our table Orders :
 
 <div class="container">
 
@@ -211,7 +211,7 @@ CREATE TABLE orders (
 </table>
 </div>
 
-- but what if in the future another John or any other registered users joined up?
+- but what if in the future another John joined up?
   <br>To avoid this confusion, it is better to use the user ID instead of the name
 
 <div class="container">
@@ -291,10 +291,6 @@ CREATE TABLE orders (
 - this User_ID wil be a reference to a specific user from users table.
 - <b>FOREIGN KEY (user_id)</b> indicates that this column is a references to external table.
 - <b>REFERENCES table(id)</b> refers to the specific user from that external table by using the id.
-
-<img src="./images/users_orders_relation.png" width="400">
-
-<a href="https://www.db-fiddle.com/f/oDar5WXtmyLWs3hGLCuTek/179"> Practice Here! </a>
 
 4. final result should look like this:
 
@@ -395,13 +391,18 @@ CREATE TABLE orders (
 </table>
 </div>
 
+<img src="./images/users_orders_relation.png" width="400">
+
+<a href="https://www.db-fiddle.com/f/oDar5WXtmyLWs3hGLCuTek/179"> Practice Here! </a>
+
 5. when inserting a new order, make sure to add the user_id
 
 ```sql
-INSERT INTO orders (price,date, user_id) VALUES ( 18, '2001-01-01 00:00Z:00', 1);
-INSERT INTO orders (price,date, user_id) VALUES ( 112, '2001-01-02 04:00:00Z', 1);
-INSERT INTO orders (price,date, user_id) VALUES ( 9, '2001-01-04 05:00:00Z', 2);
-INSERT INTO orders (price,date, user_id) VALUES ( 14.5 , '2001-01-03 05:00:00Z', 3)
+INSERT INTO orders (price,date, user_id)
+VALUES ( 18, '2001-01-01 00:00Z:00', 1);
+       ( 112, '2001-01-02 04:00:00Z', 1);
+       ( 9, '2001-01-04 05:00:00Z', 2);
+       ( 14.5 , '2001-01-03 05:00:00Z', 3)
 ```
 
 </li>
@@ -416,8 +417,8 @@ INSERT INTO orders (price,date, user_id) VALUES ( 14.5 , '2001-01-03 05:00:00Z',
 
 1. we managed to create two tables users and orders, but how can that be beneficial?
 
-- so if i want to know all the orders made by John.
-  - i would need to <b>SELECT</b> every from the table orders.
+- so if we want to know all the orders made by John.
+  - we need to <b>SELECT</b> every column from the table orders.
   - then filter out the ones <b>WHERE</b> the user_id is John's id.
 
 ```sql
@@ -454,13 +455,13 @@ orders table:
   </tbody>
 </table>
 
-2. Although this works, but it might be better to join the user data who made this order to the previous result.
+2. Although this works, but it would be even better to join the user data who made those orders to the previous result.
 
 - we can do that be using <b>JOIN ON</b>
 
 ```sql
 SELECT *
-FROM orders LEFT JOIN users
+FROM orders INNER JOIN users
 ON orders.user_id = users.id
 WHERE user_id = 1;
 ```
@@ -549,24 +550,24 @@ const JohnOrders = [
 
 <img src="./images/connectingTables.png" width="400">
 
+1. <b>FULL JOIN</b>
+
 - So far every user has made at least one order.
-  <br> but what if one of the customers did not make any orders?
+  <br> but what if one of the users did not purchase any orders?
 
 ```sql
-INSERT INTO users (id, first_name, last_name)
-VALUES (4, 'Gorge', 'Orwell');
+INSERT INTO users (id, first_name, last_name, age)
+VALUES (4, 'Gorge', 'Orwell', NULL);
 ```
 
-- and what if on of the orders did not has id?
+- and what if on of the orders did not have an id?
 
 ```sql
 INSERT INTO orders (price, date, user_id)
 VALUES ( 100 , '2001-01-05 05:00:00', NULL);
 ```
 
-1. <b>FULL JOIN</b>
-
-- only returns records that have matching values in both tables (the "ON" condition must be true).
+- FULL JOIN will returns all records.
 
 ```sql
 SELECT *
@@ -654,7 +655,7 @@ ON orders.user_id = users.id;
 
 2. <b>INNER JOIN</b>
 
-- return all records when there is a match in either the left (users) or right (orders) table, and all unmatched records.
+- return only records when there is a match in both left and right tables.
 
 ```sql
 SELECT *
@@ -722,7 +723,7 @@ ON orders.user_id = users.id;
 
 3. <b>LEFT JOIN</b>
 
-- return all records from the left table ("users"), and the matched records from the right table ("orders").
+- return all records from the left table ("orders"), and the matched records from the right table ("users").
 
 ```sql
 SELECT *

@@ -223,7 +223,7 @@ console.log(karl.getFullName()); // Output: Karl Doe
 
 ### Prototype property and Constructor property.
 
-- because assigning a property to an object is exclusive to his object only.
+- because assigning a property to an object is exclusive to this object only.
 
 ```js
 function Person(fName, lName) {
