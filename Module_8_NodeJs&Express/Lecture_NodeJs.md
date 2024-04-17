@@ -31,7 +31,7 @@
 
 - Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside of a web browser.
 - It uses the V8 JavaScript engine, developed by Google for Chrome, which compiles JavaScript directly to native machine code.
-- Node.js allows developers to run JavaScript on the server-side, enabling them to build scalable network applications and handle I/O-heavy (Input/Output) operations efficiently.
+- Node.js allows developers to run JavaScript on the server-side, enabling them to build scalable network applications and handle I/O-heavy (Input/Output) operations efficiently. I/O (Input/Output)
 
 2. History of Node
 
@@ -103,6 +103,8 @@ require('./utils.js');
 
 ### Node Modules
 
+- node docs <a href="http://nodejs.org/api/modules.html"><button>check out the docs</button></a>
+
 - the global object in js is window
 - Node.js provides its own set of global objects that are available in any Node.js script. Examples:
 
@@ -110,8 +112,6 @@ require('./utils.js');
   - console: object provides methods for writing to the standard output (stdout) and standard error (stderr) streams
   - \_\_ dirname: returns directory containing the current module (file).
   - \_\_ filename: variable contains the absolute path to the current JavaScript file.
-
-- node docs <a href="http://nodejs.org/api/modules.html"><button>check out the docs</button></a>
 
 ### Os Module in node
 
@@ -151,8 +151,7 @@ console.log(
   "scripts": {
     "start": "node --watch index.js",
     "dev": "nodemon index.js",
-    "list-files": "ls",
-    "x": "git add . ; git commit -m 'update' ; git push"
+    "list-files": "ls"
   }
 }
 ```
@@ -274,7 +273,7 @@ const fs = require('fs');
 const myObject = {
   name: 'John Doe',
   age: 30,
-  city: 'New York',
+  city: 'Hannover',
 };
 
 // Serialize the object to JSON string
@@ -324,9 +323,6 @@ const sum = _.sum(numbers);
 console.log('Sum of numbers:', sum);
 ```
 
-- TODO: install a small package as a demonstration
-- us "fs.readFile(path,options,callback)" from a file to demo working with data
-
 </li>
   </ul>
   </section>
@@ -335,7 +331,9 @@ console.log('Sum of numbers:', sum);
 <ul>
 <li>
 
-### installing and versions
+### Creating a server using http module
+
+- server returning a string
 
 ```js
 const http = require('http');
@@ -343,6 +341,24 @@ const http = require('http');
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Hello World');
+});
+
+server.listen(8080, () => {
+  console.log('Server is running on port 8080');
+});
+```
+
+- server returning a Json object
+
+```js
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+
+  const responseJSON = { message: 'Hello World' };
+
+  res.end(JSON.stringify(responseJSON));
 });
 
 server.listen(8080, () => {
