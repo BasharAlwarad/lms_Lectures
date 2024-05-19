@@ -167,8 +167,8 @@ Javascript:
 
 ```js
 const target = document.getElementById('target');
-const previousSibling = target.previousSibling;
-const nextSibling = target.nextSibling;
+const previousSibling = target.previousElementSibling;
+const nextSibling = target.nextElementSibling;
 console.log(previousSibling.textContent); // Output: Item 1
 console.log(nextSibling.textContent); // Output: Item 3
 ```
@@ -303,7 +303,7 @@ div.id = 'newId';
 JavaScript:
 
 ```js
-var button = document.getElementById('myButton');
+const button = document.getElementById('myButton');
 button.addEventListener('click', function () {
   alert('Button clicked!');
 });
@@ -320,7 +320,7 @@ button.addEventListener('click', function () {
 JavaScript:
 
 ```js
-var div = document.getElementById('myDiv');
+const div = document.getElementById('myDiv');
 div.addEventListener('mouseover', function () {
   console.log('Mouse over the div');
 });
@@ -339,7 +339,7 @@ div.addEventListener('mouseover', function () {
 JavaScript:
 
 ```js
-var input = document.getElementById('myInput');
+const input = document.getElementById('myInput');
 input.addEventListener('keydown', function (event) {
   console.log('Key pressed:', event.key);
 });

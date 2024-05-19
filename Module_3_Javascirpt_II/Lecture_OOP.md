@@ -164,7 +164,7 @@ john['fName'] = 'John';
 john.lName = 'Doe';
 
 john.getFullName = function () {
-  return `${this.['fName']} ${this.['lName']}`;
+  return `${this['fName']} ${this['lName']}`;
 };
 
 console.log(john.getFullName()); // Output: John Doe
@@ -183,7 +183,7 @@ john['fName'] = 'John';
 john.lName = 'Doe';
 
 john.getFullName = function () {
-  return `${this.['fName']} ${this.['lName']}`;
+  return `${this['fName']} ${this['lName']}`;
 };
 
 const karl = { ...john, fName: 'Karl' };
@@ -223,7 +223,7 @@ console.log(karl.getFullName()); // Output: Karl Doe
 
 ### Prototype property and Constructor property.
 
-- because assigning a property to an object is exclusive to this object only.
+- Assigning a property to an object is exclusive to this object only.
 
 ```js
 function Person(fName, lName) {
