@@ -99,7 +99,7 @@ CREATE TABLE users (
 CREATE TABLE orders (
     id serial PRIMARY KEY,
     price float,
-  	date timestamp,
+  	date timestamp
 );
 ```
 
@@ -306,6 +306,14 @@ CREATE TABLE users (
     age int
 );
 ```
+- add users:
+
+```sql
+INSERT INTO users (first_name, last_name, age)
+VALUES ('John', 'Doe', 18),
+       ('Bob', 'Dylan', 30),
+       ('Jane', 'Doe', 25);
+```
 
 <table>
 <thead>
@@ -398,11 +406,12 @@ CREATE TABLE orders (
 5. when inserting a new order, make sure to add the user_id
 
 ```sql
-INSERT INTO orders (price,date, user_id)
-VALUES ( 18, '2001-01-01 00:00Z:00', 1);
-       ( 112, '2001-01-02 04:00:00Z', 1);
-       ( 9, '2001-01-04 05:00:00Z', 2);
-       ( 14.5 , '2001-01-03 05:00:00Z', 3)
+INSERT INTO orders (price, date, user_id)
+VALUES 
+    (18, '2001-01-01 00:00:00Z', 1),
+    (112, '2001-01-02 04:00:00Z', 1),
+    (9, '2001-01-04 05:00:00Z', 2),
+    (14.5, '2001-01-03 05:00:00Z', 3);
 ```
 
 </li>
@@ -556,15 +565,15 @@ const JohnOrders = [
   <br> but what if one of the users did not purchase any orders?
 
 ```sql
-INSERT INTO users (id, first_name, last_name, age)
-VALUES (4, 'Gorge', 'Orwell', NULL);
+INSERT INTO users (first_name, last_name, age)
+VALUES ('Gorge', 'Orwell', NULL);
 ```
 
 - and what if on of the orders did not have an id?
 
 ```sql
 INSERT INTO orders (price, date, user_id)
-VALUES ( 100 , '2001-01-05 05:00:00', NULL);
+VALUES ( 100 , NOW(), NULL);
 ```
 
 - FULL JOIN will returns all records.
@@ -806,7 +815,7 @@ ON orders.user_id = users.id;
 ```sql
 SELECT *
 FROM users RIGHT JOIN orders
-ON users.id = orders.id;
+ON users.id = orders.user_id ;
 ```
 
 <br>

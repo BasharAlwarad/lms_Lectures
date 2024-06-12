@@ -277,7 +277,7 @@ VALUES ('John', 'Doe', 18);                    -- in columns |first_name| last_n
 
    - use Uppercase for SQL commands.
    - use a new line for each SQL command for better readability.
-   - use single quotes always for the values.
+   - use single quotes for string values.
    - use semicolon at the end of each command.
    </li>
 
@@ -406,15 +406,15 @@ FROM users;        -- from table users
   </thead>
   <tbody>
     <tr>
-      <td class="th"></td>
+      <td class="th">1</td>
       <td class="td">John</td>
     </tr>
     <tr>
-      <td class="th"></td>
+      <td class="th">2</td>
       <td class="td">Bob</td>
     </tr>
     <tr>
-      <td class="th"></td>
+      <td class="th">3</td>
       <td class="td">Jane</td>
     </tr>
   </tbody>
@@ -424,9 +424,9 @@ FROM users;        -- from table users
 
 ```js
 const users = [
-  { first_name: 'John' },
-  { first_name: 'Bob' },
-  { first_name: 'Jane' },
+  { id:1 , first_name: 'John' },
+  { id:2 , first_name: 'Bob' },
+  { id:3 , first_name: 'Jane' },
 ];
 ```
 
@@ -449,17 +449,17 @@ FROM users                    -- from table users
   </thead>
   <tbody>
     <tr>
-      <td class="th"></td>
+      <td class="th">1</td>
       <td class="td">John</td>
       <td class="td">Doe</td>
     </tr>
     <tr>
-      <td class="th"></td>
+      <td class="th">2</td>
       <td class="td">Bob</td>
       <td class="td">Dylan</td>
     </tr>
     <tr>
-      <td class="th"></td>
+      <td class="th">3</td>
       <td class="td">Jane</td>
       <td class="td">Doe</td>
     </tr>
@@ -470,9 +470,9 @@ FROM users                    -- from table users
 
 ```js
 const users = [
-  { first_name: 'John', last_name: 'Doe' },
-  { first_name: 'Bob', last_name: 'Dylan' },
-  { first_name: 'Jane', last_name: 'Doe' },
+  { id: 1, first_name: 'John', last_name: 'Doe' },
+  { id: 2, first_name: 'Bob', last_name: 'Dylan' },
+  { id: 3, first_name: 'Jane', last_name: 'Doe' },
 ];
 ```
 
@@ -530,8 +530,8 @@ WHERE age > 18  --  filter out columns with age value > 18
 
 ```js
 const users = [
-  { first_name: 'Bob', last_name: 'Dylan', age: '30' },
-  { first_name: 'Jane', last_name: 'Doe', age: '25' },
+  { id: 2, first_name: 'Bob', last_name: 'Dylan', age: '30' },
+  { id: 3, first_name: 'Jane', last_name: 'Doe', age: '25' },
 ];
 ```
 
@@ -546,7 +546,7 @@ const users = [
 SELECT *                --  will return all rows
 FROM users              --  from table users
 WHERE age > 18          --  filter out rows with age value > 18
-AND last_name = 'Doe'   --  only keep rows where column "last_name" = 'Doe'
+AND last_name = 'Doe';  --  only keep rows where column "last_name" = 'Doe'
 ```
 
 <br>
@@ -569,10 +569,10 @@ AND last_name = 'Doe'   --  only keep rows where column "last_name" = 'Doe'
   </tbody>
 </table>
 
-- Datat to the frontend will be as follows:
+- Data to the frontend will be as follows:
 
 ```js
-const users = [{ first_name: 'Jane', last_name: 'Doe', age: '25' }];
+const users = [{ id: 1, first_name: 'Jane', last_name: 'Doe', age: '25' }];
 ```
 
 </li>
@@ -626,7 +626,7 @@ LIMIT 2;    -- return only the first two rows
 
 ```js
 const users = [
-  { id: 2, first_name: 'John', last_name: 'Doe', age: 18 },
+  { id: 1, first_name: 'John', last_name: 'Doe', age: 18 },
   { id: 2, first_name: 'Bob', last_name: 'Dylan', age: 30 },
 ];
 ```
