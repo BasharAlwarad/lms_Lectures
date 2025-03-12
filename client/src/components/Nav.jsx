@@ -40,6 +40,9 @@ const Nav = () => {
           <NavLink to="/login9" className={active}>
             Recoil for state management
           </NavLink>
+          <NavLink to="/login10" className={active}>
+            Image upload
+          </NavLink>
         </div>
       </div>
     </nav>

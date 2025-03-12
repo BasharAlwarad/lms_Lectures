@@ -24,7 +24,9 @@ export default function Login() {
       console.error('There was an error submitting the form!', error);
     }
   };
+
   console.log(watch('username'));
+
   return (
     <div>
       <form
@@ -45,7 +47,7 @@ export default function Login() {
             name="username"
             type="text"
             placeholder="Username"
-            {...register('username', { required: true })}
+            {...register('username', { required: true, minLength: 3 })}
           />
           {errors.username && (
             <span className="text-red-500 text-sm">Username is required</span>

@@ -1,31 +1,51 @@
-import { useState } from 'react';
-import useRenderCount from '../components/useRenderCount';
-
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { formState, formErrors } from '../components/recoilFormState';
 import axios from 'axios';
 
-export default function Login() {
-  useRenderCount();
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+export default function LoginRecoil() {
+  const [state, setState] = useRecoilState(formState);
+  const errors = useRecoilValue(formErrors);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, files } = e.target;
+    if (files) {
+      setState((prevState) => ({
+        ...prevState,
+        [name]: files[0],
+      }));
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.keys(errors).length > 0) {
+      setState((prevState) => ({
+        ...prevState,
+        errors,
+      }));
+      return;
+    }
+    const formData = new FormData();
+    formData.append('username', state.username);
+    formData.append('email', state.email);
+    formData.append('password', state.password);
+    if (state.image) {
+      formData.append('image', state.image);
+    }
     try {
       const response = await axios.post(
         'http://localhost:8080/home/login',
-        formData
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
       );
       console.log(response.data);
     } catch (error) {
@@ -53,9 +73,14 @@ export default function Login() {
             name="username"
             type="text"
             placeholder="Username"
-            value={formData.username}
+            value={state.username}
             onChange={handleChange}
           />
+          {state.errors.username && (
+            <span className="text-red-500 text-sm">
+              {state.errors.username}
+            </span>
+          )}
         </div>
         <div className="mb-4">
           <label
@@ -70,9 +95,12 @@ export default function Login() {
             name="email"
             type="text"
             placeholder="Email"
-            value={formData.email}
+            value={state.email}
             onChange={handleChange}
           />
+          {state.errors.email && (
+            <span className="text-red-500 text-sm">{state.errors.email}</span>
+          )}
         </div>
         <div className="mb-6">
           <label
@@ -87,9 +115,32 @@ export default function Login() {
             name="password"
             type="password"
             placeholder="******************"
-            value={formData.password}
+            value={state.password}
             onChange={handleChange}
           />
+          {state.errors.password && (
+            <span className="text-red-500 text-sm">
+              {state.errors.password}
+            </span>
+          )}
+        </div>
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="image"
+          >
+            Upload Image
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="image"
+            name="image"
+            type="file"
+            onChange={handleChange}
+          />
+          {state.errors.image && (
+            <span className="text-red-500 text-sm">{state.errors.image}</span>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <button

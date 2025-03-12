@@ -12,6 +12,7 @@ import Login6 from './pages/Login6';
 import Login7 from './pages/Login7';
 import Login8 from './pages/Login8';
 import Login9 from './pages/Login9';
+import Login10 from './pages/Login10';
 
 export default function App() {
   function useRenderCount() {
@@ -20,7 +21,6 @@ export default function App() {
     console.log(`Render count: ${renderCount.current}`);
   }
   useRenderCount();
-
   return (
     <RecoilRoot>
       <Router>
@@ -38,6 +38,7 @@ export default function App() {
               <Route path="/login7" element={<Login7 />} />
               <Route path="/login8" element={<Login8 />} />
               <Route path="/login9" element={<Login9 />} />
+              <Route path="/login10" element={<Login10 />} />
             </Routes>
           </div>
         </div>
