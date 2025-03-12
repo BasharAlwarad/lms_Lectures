@@ -1,4 +1,5 @@
-import express from 'express';
+import express, { json } from 'express';
+import cors from 'cors';
 import { PORT, MODE } from './config/config.js';
 import bodyParser from 'body-parser';
 import path from 'path';
@@ -8,6 +9,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Middleware to enable CORS
+app.use(json());
+app.use(cors());
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +31,16 @@ app.post('/home', (req, res) => {
 
   // Send the static HTML file as a response
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.post('/home/login', (req, res) => {
+  console.log({ ...req.body });
+
+  // Send the static HTML file as a response
+  res.json({
+    message: 'Form submitted successfully!',
+    data: { ...req.body },
+  });
 });
 
 app.listen(PORT, () => {
