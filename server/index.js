@@ -21,9 +21,7 @@ app.get('/', (req, res) => {
 
 app.post('/home', (req, res) => {
   const { username, email, password } = req.body;
-  if (username !== 'John') {
-    return res.status(400).send('<h1>you are not John</h1>');
-  }
+
   console.log(`Username: ${username}, Email: ${email}, Password: ${password}`);
 
   // Send the static HTML file as a response
