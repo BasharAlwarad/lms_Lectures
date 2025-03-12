@@ -1,44 +1,33 @@
 import express from 'express';
 import { PORT, MODE } from './config/config.js';
 import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.post('/submit', (req, res) => {
+app.post('/home', (req, res) => {
   const { username, email, password } = req.body;
+  if (username !== 'John') {
+    return res.status(400).send('<h1>you are not John</h1>');
+  }
   console.log(`Username: ${username}, Email: ${email}, Password: ${password}`);
 
-  // Send back the submitted data in a static HTML response
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Form Submission</title>
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
-      </head>
-      <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-        <div class="bg-white p-6 rounded shadow-md w-full max-w-sm">
-          <h2 class="text-2xl font-bold mb-4">Form Submitted</h2>
-          <p class="mb-4"><strong>Username:</strong> ${username}</p>
-          <p class="mb-4"><strong>Email:</strong> ${email}</p>
-          <p class="mb-4"><strong>Password:</strong> ${password}</p>
-          <a href="http://127.0.0.1:5500/vanilla/index.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Go Back</a>
-        </div>
-      </body>
-    </html>
-  `);
+  // Send the static HTML file as a response
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
 app.listen(PORT, () => {
