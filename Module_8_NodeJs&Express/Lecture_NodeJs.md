@@ -254,6 +254,15 @@ fs.mkdir('newDirectory', (err) => {
   console.log('Directory created successfully.');
 });
 
+// Removing a directory
+fs.rmdir('newDirectory', { recursive: true }, (err) => {
+  if (err) {
+    console.error('Error removing directory:', err);
+    return;
+  }
+  console.log('Directory removed successfully.');
+});
+
 // Removing a file
 fs.unlink('example.txt', (err) => {
   if (err) {
@@ -270,11 +279,18 @@ fs.unlink('example.txt', (err) => {
 const fs = require('fs');
 
 // Example JavaScript object
-const myObject = {
-  name: 'John Doe',
-  age: 30,
-  city: 'Hannover',
-};
+const myObject = [
+  {
+    name: 'John Doe',
+    age: 30,
+    city: 'Hannover',
+  },
+  {
+    name: 'Jane Doe',
+    age: 25,
+    city: 'Berlin',
+  },
+];
 
 // Serialize the object to JSON string
 const jsonString = JSON.stringify(myObject);
@@ -321,6 +337,28 @@ const lodash = require('lodash');
 const numbers = [1, 2, 3, 4, 5];
 const sum = lodash.sum(numbers);
 console.log('Sum of numbers:', sum);
+
+// More Examples usage of lodash functions
+const array1 = [1, 2, 3, 4];
+const array2 = [3, 4, 5, 6];
+
+function findCommonElements(arr1, arr2) {
+  const result = [];
+
+  arr1.forEach((item1) => {
+    if (arr2.includes(item1)) {
+      result.push(item1);
+    }
+  });
+  return result;
+}
+
+const commonElements = findCommonElements(array1, array2);
+console.log(commonElements);
+
+// with lodash
+const _commonElements = _.intersection(array1, array2);
+console.log(_commonElements);
 ```
 
 </li>
@@ -366,20 +404,120 @@ server.listen(8080, () => {
 });
 ```
 
+- server returning HTML
+
+```js
+import { createServer } from 'http';
+
+const server = createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+
+  const responseJSON = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Vanilla</title>
+    <style>
+      h1 {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <h1>Hello World</h1>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
+  `;
+  res.end(responseJSON);
+});
+
+server.listen(8080, () => {
+  console.log('Server is running on port 8080');
+});
+```
+
 - CORS: Cross-Origin Resource Sharing.
 
 ```js
-const http = require('http');
+import { createServer } from 'http';
+import data from './data/data.js';
 
-const server = http.createServer((req, res) => {
+const server = createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+
+  res.end(JSON.stringify(data));
+});
+
+server.listen(8080, () => {
+  console.log('Server is running on port 8080');
+});
+```
+
+- Creating file with server using data coming from the front end.
+
+```js
+import { createServer } from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const server = createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  res.writeHead(200, { 'Content-Type': 'application/json' });
+  if (req.method === 'POST') {
+    let body = '';
 
-  const responseJSON = { message: 'Hello World' };
-  res.end(JSON.stringify(responseJSON));
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on('end', () => {
+      const { filename, content } = JSON.parse(body);
+
+      if (!filename || !content) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Filename and content are required' }));
+        return;
+      }
+
+      const filePath = path.join(__dirname, `${filename}.txt`);
+
+      fs.writeFile(filePath, content, (err) => {
+        if (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Failed to create the file' }));
+          return;
+        }
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            message: `File '${filename}.txt' created successfully`,
+          })
+        );
+      });
+    });
+  } else {
+    res.writeHead(405, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Method not allowed' }));
+  }
 });
 
 server.listen(8080, () => {

@@ -306,6 +306,7 @@ CREATE TABLE users (
     age int
 );
 ```
+
 - add users:
 
 ```sql
@@ -407,11 +408,11 @@ CREATE TABLE orders (
 
 ```sql
 INSERT INTO orders (price, date, user_id)
-VALUES 
+VALUES
     (18, '2001-01-01 00:00:00Z', 1),
-    (112, '2001-01-02 04:00:00Z', 1),
-    (9, '2001-01-04 05:00:00Z', 2),
-    (14.5, '2001-01-03 05:00:00Z', 3);
+    (112, date_trunc('day', '2001-01-02 04:00:00Z'::timestamp), 1),
+    (9, current_timestamp, 2),
+    (14.5, current_timestamp, 3);
 ```
 
 </li>

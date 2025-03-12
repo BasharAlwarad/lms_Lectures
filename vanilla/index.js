@@ -1,52 +1,39 @@
-// import nav from './components/nav.js';
-// import main from './components/main.js';
-// import footer from './components/footer.js';
-// import x from './components/X.js';
+window.alert('Hello, World!');
 
+// const userData = [
+//   { id: 1, first_name: 'John', last_name: 'Doe', age: 25 },
+//   { id: 2, first_name: 'Bob', last_name: 'Dylan', age: 30 },
+//   { id: 3, first_name: 'Jane', last_name: 'Doe', age: 25 },
+// ];
 
+// const relationalData = [
+//   { user_id: 1, email: 'john@example.com' },
+//   { user_id: 2, email: 'bob@example.com' },
+//   { user_id: 3, email: 'jane@example.com' },
+// ];
 
-// function render() {
+// function mergeUserData(users, relationalData) {
+//   const userMap = new Map();
 
-//     const root = document.getElementById("root")
-//     root.innerHTML += nav() + main() + footer() + x("John","Doe")
-    
+//   // Populate userMap with user data
+//   users.forEach((user) => {
+//     userMap.set(user.id, { ...user });
+//   });
+
+//   // Merge relational data into userMap
+//   relationalData.forEach((data) => {
+//     const userId = data.user_id;
+//     if (userMap.has(userId)) {
+//       const userData = userMap.get(userId);
+//       userMap.set(userId, { ...userData, ...data });
+//     }
+//   });
+
+//   // Convert userMap to an array of objects
+//   const mergedData = Array.from(userMap.values());
+
+//   return mergedData;
 // }
 
-// render()
-
-// let x =0
-// const button=document.getElementById("button")
-// const output=document.getElementById("output")
-
-// button.addEventListener("click",()=>{
-//     x++
-//     output.innerHTML=x
-// })
-
-// const user = ["John" ,"Doe"]
-// const [firstName, lastName] = user
-
-
-const user = ()=> {
-    let firstName="John"
-
-    const setName=(x)=> {
-        firstName=x
-    }
-    
-    return [firstName,setName]
-}
-const [firstName, setName] = user() //["John" ,setName]
-setName("mike")
-
-
-  console.log(firstName)
-
-  
-// const [firstName,x]=["John",  ()=> {
-//     return "Doe"
-// }]
-// console.log(firstName)
-// console.log(x())
-
-
+// const mergedUserData = mergeUserData(userData, relationalData);
+// console.log(mergedUserData);

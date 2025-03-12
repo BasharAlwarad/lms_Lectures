@@ -211,7 +211,7 @@ const users = [
 
 ```sql
 CREATE TABLE users (       -- Create a table with the name users
-  id SERIAL PRIMARY KEY,   -- automatically serialize the ids after every change
+  id SERIAL PRIMARY KEY,   -- automatically serialize the ids
   first_name VARCHAR(255), -- variable character string of length 255
   last_name VARCHAR(255),  -- 255 because each byte can fit 255 char in it
   age INT                  -- integer
@@ -424,9 +424,9 @@ FROM users;        -- from table users
 
 ```js
 const users = [
-  { id:1 , first_name: 'John' },
-  { id:2 , first_name: 'Bob' },
-  { id:3 , first_name: 'Jane' },
+  { id: 1, first_name: 'John' },
+  { id: 2, first_name: 'Bob' },
+  { id: 3, first_name: 'Jane' },
 ];
 ```
 
