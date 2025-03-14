@@ -415,6 +415,18 @@ VALUES
     (14.5, current_timestamp, 3);
 ```
 
+### How Data is Created in SQL
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffcc00', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#ffcc00', 'fontFamily': 'Handwritten', 'fontSize': '16px', 'sketch': true }}}%%
+graph LR;
+    A[Start] --> B[Create Database];
+    B --> C[Create Table];
+    C --> D[Insert Data];
+    D --> E[Query Data];
+    E --> F[End];
+```
+
 </li>
 </ul>
 </section>
