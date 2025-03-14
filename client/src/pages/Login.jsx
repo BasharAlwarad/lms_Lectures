@@ -1,37 +1,28 @@
-import { useRef } from 'react';
-import useRenderCount from '../components/useRenderCount';
-
-import axios from 'axios';
+import { useState } from 'react';
 
 export default function Login() {
-  useRenderCount();
-  const formRef = useRef();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(formRef.current);
-    formData.append('something', 'test');
-    const data = {
-      username: formData.get('username'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      something: formData.get('something'),
-    };
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/home/login',
-        data
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error('There was an error submitting the form!', error);
-    }
+    console.log('Form submitted:', formData);
   };
 
   return (
     <div>
       <form
-        ref={formRef}
         className="bg-white p-6 rounded shadow-md w-full max-w-sm mx-auto"
         onSubmit={handleSubmit}
       >
@@ -49,6 +40,8 @@ export default function Login() {
             name="username"
             type="text"
             placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-4">
@@ -64,6 +57,8 @@ export default function Login() {
             name="email"
             type="text"
             placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-6">
@@ -79,6 +74,8 @@ export default function Login() {
             name="password"
             type="password"
             placeholder="******************"
+            value={formData.password}
+            onChange={handleChange}
           />
         </div>
         <div className="flex items-center justify-between">
