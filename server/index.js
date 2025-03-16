@@ -12,7 +12,11 @@ const app = express();
 
 // Middleware to enable CORS
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));

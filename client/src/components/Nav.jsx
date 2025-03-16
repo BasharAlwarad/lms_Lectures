@@ -43,6 +43,9 @@ const Nav = () => {
           <NavLink to="/login10" className={active}>
             Image upload
           </NavLink>
+          <NavLink to="/login11" className={active}>
+            Actions
+          </NavLink>
         </div>
       </div>
     </nav>
