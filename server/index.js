@@ -33,7 +33,7 @@ app.post('/home', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
-app.post('/home/login', (req, res) => {
+app.post('/auth/login', (req, res) => {
   console.log({ ...req.body });
 
   // Send the static HTML file as a response

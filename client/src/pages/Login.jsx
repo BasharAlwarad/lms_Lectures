@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Login() {
   const [formData, setFormData] = useState({
     username: '',
@@ -15,9 +16,11 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    const { data } = await axios.post(`${API_URL}/auth/login`, formData);
+    console.log(data);
   };
 
   return (

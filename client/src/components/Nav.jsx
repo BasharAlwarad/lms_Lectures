@@ -20,6 +20,9 @@ const Nav = () => {
           <NavLink to="/products" className={active}>
             Products
           </NavLink>
+          <NavLink to="/test" className={active}>
+            Test
+          </NavLink>
           <Cart />
         </div>
       </div>

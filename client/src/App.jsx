@@ -5,6 +5,7 @@ import Nav from './components/Nav';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Products from './pages/Products';
+import Test from './pages/Test';
 import Cart from './components/Cart';
 import Product from './pages/Product';
 import { CartProvider } from './contexts/CartContext';
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<Product />} />
+            <Route path="/test" element={<Test />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
