@@ -8,6 +8,7 @@ import Products from './pages/Products';
 import Test from './pages/Test';
 import Cart from './components/Cart';
 import Product from './pages/Product';
+import UseActionState from './pages/UseActionState';
 import { CartProvider } from './contexts/CartContext';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<Product />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/useActionState" element={<UseActionState />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>

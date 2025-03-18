@@ -23,6 +23,9 @@ const Nav = () => {
           <NavLink to="/test" className={active}>
             Test
           </NavLink>
+          <NavLink to="/useActionState" className={active}>
+            useActionState
+          </NavLink>
           <Cart />
         </div>
       </div>

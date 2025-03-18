@@ -39,7 +39,7 @@ app.post('/auth/login', (req, res) => {
   // Send the static HTML file as a response
   res.json({
     message: 'Form submitted successfully!',
-    data: { ...req.body },
+    user: { ...req.body },
   });
 });
 

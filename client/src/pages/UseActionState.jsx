@@ -1,31 +1,46 @@
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 
-export default function Login() {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const [loading, setLoading] = useState();
+export default function UseActionState() {
+  const [{ username, email, password }, actionFunction, isPending] =
+    useActionState(handleSubmit, {
+      username: '',
+      email: '',
+      password: '',
+    });
 
-  const handleSubmit = async (formData) => {
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(prevState, formData) {
     try {
+      setLoading(true);
       const formObject = Object.fromEntries(formData.entries());
       const { data } = await axios.post(`${API_URL}/auth/login`, formObject);
-      console.log(data);
+      if (!isPending) {
+        setLoading(false);
+      }
+      return data?.user;
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error(error.message);
     } finally {
       setLoading(false);
+      console.log({ username, email, password });
     }
-  };
-
+  }
   if (loading) {
-    return <div className="w-full text-center mx-auto">Loading</div>;
+    return (
+      <div className="w-full text-center mx-auto">
+        🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
+      </div>
+    );
   }
 
   return (
     <div>
       <form
         className="bg-white p-6 rounded shadow-md w-full max-w-sm mx-auto"
-        action={handleSubmit}
+        action={actionFunction}
       >
         <h2 className="text-2xl font-bold mb-4">Login Form</h2>
         <div className="mb-4">
