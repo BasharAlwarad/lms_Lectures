@@ -1,39 +1,36 @@
-window.alert('Hello, World!');
+import { createServer } from 'http';
+import { readFile } from 'fs';
+import { join, dirname, extname } from 'path';
+import { fileURLToPath } from 'url';
 
-// const userData = [
-//   { id: 1, first_name: 'John', last_name: 'Doe', age: 25 },
-//   { id: 2, first_name: 'Bob', last_name: 'Dylan', age: 30 },
-//   { id: 3, first_name: 'Jane', last_name: 'Doe', age: 25 },
-// ];
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// const relationalData = [
-//   { user_id: 1, email: 'john@example.com' },
-//   { user_id: 2, email: 'bob@example.com' },
-//   { user_id: 3, email: 'jane@example.com' },
-// ];
+const server = createServer((req, res) => {
+  let requestedUrl = req.url === '/' ? 'index.html' : req.url;
+  let filePath = join(__dirname, 'public', requestedUrl);
 
-// function mergeUserData(users, relationalData) {
-//   const userMap = new Map();
+  let ext = extname(filePath);
 
-//   // Populate userMap with user data
-//   users.forEach((user) => {
-//     userMap.set(user.id, { ...user });
-//   });
+  if (!ext) {
+    filePath += '.html';
+    ext = '.html';
+  }
 
-//   // Merge relational data into userMap
-//   relationalData.forEach((data) => {
-//     const userId = data.user_id;
-//     if (userMap.has(userId)) {
-//       const userData = userMap.get(userId);
-//       userMap.set(userId, { ...userData, ...data });
-//     }
-//   });
+  let contentType = 'text/html';
+  if (ext === '.css') contentType = 'text/css';
 
-//   // Convert userMap to an array of objects
-//   const mergedData = Array.from(userMap.values());
+  readFile(filePath, (err, data) => {
+    if (err) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
+      return;
+    }
 
-//   return mergedData;
-// }
+    res.writeHead(200, { 'Content-Type': contentType });
+    res.end(data);
+  });
+});
 
-// const mergedUserData = mergeUserData(userData, relationalData);
-// console.log(mergedUserData);
+server.listen(8080, () => {
+  console.log('Server is running on http://localhost:8080');
+});
