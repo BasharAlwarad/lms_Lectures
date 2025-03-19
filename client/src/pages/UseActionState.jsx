@@ -1,37 +1,47 @@
-import { useState, useActionState } from 'react';
+import { useActionState } from 'react';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function UseActionState() {
-  const [{ username, email, password }, actionFunction, isPending] =
-    useActionState(handleSubmit, {
+  const [
+    {
+      data: { username, email, password },
+      error,
+    },
+    actionFunction,
+    isPending,
+  ] = useActionState(handleSubmit, {
+    loading: false,
+    error: null,
+    data: {
       username: '',
       email: '',
       password: '',
-    });
-
-  const [loading, setLoading] = useState(false);
+    },
+  });
 
   async function handleSubmit(prevState, formData) {
     try {
-      setLoading(true);
       const formObject = Object.fromEntries(formData.entries());
       const { data } = await axios.post(`${API_URL}/auth/login`, formObject);
-      if (!isPending) {
-        setLoading(false);
-      }
-      return data?.user;
+      return { data: data?.user, error: null };
     } catch (error) {
-      console.error(error.message);
-    } finally {
-      setLoading(false);
-      console.log({ username, email, password });
+      return { ...prevState, error: error.message };
     }
   }
-  if (loading) {
+
+  if (isPending) {
     return (
       <div className="w-full text-center mx-auto">
         🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full text-center mx-auto">
+        ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ... {error} ... ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
       </div>
     );
   }
@@ -97,6 +107,21 @@ export default function UseActionState() {
           </button>
         </div>
       </form>
+      {username && (
+        <div className="w-full text-center mx-auto">
+          🎉🎉🎉🎉🎉🎉🎉🎉 ... Welcome {username} ... 🎉🎉🎉🎉🎉🎉🎉🎉
+        </div>
+      )}
+      {email && (
+        <div className="w-full text-center mx-auto">
+          📧📧📧📧📧📧📧📧 ... Email: {email} ... 📧📧📧📧📧📧📧📧
+        </div>
+      )}
+      {password && (
+        <div className="w-full text-center mx-auto">
+          🔒🔒🔒🔒🔒🔒🔒🔒 ... Password: {password} ... 🔒🔒🔒🔒🔒🔒🔒🔒
+        </div>
+      )}
     </div>
   );
 }
