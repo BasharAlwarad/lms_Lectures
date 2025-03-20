@@ -37,10 +37,12 @@ app.post('/auth/login', (req, res) => {
   console.log({ ...req.body });
 
   // Send the static HTML file as a response
-  res.json({
-    message: 'Form submitted successfully!',
-    user: { ...req.body },
-  });
+  setTimeout(() => {
+    res.json({
+      message: 'Form submitted successfully!',
+      user: { ...req.body },
+    });
+  }, 3000);
 });
 
 app.listen(PORT, () => {

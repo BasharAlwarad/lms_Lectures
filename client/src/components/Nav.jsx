@@ -26,6 +26,9 @@ const Nav = () => {
           <NavLink to="/useActionState" className={active}>
             useActionState
           </NavLink>
+          <NavLink to="/useOptimistic" className={active}>
+            useOptimistic
+          </NavLink>
           <Cart />
         </div>
       </div>
