@@ -1,3 +1,0 @@
-<h1>DOM (Document Object Module) in JavaScript</h1>
-
-Hello world
