@@ -25,6 +25,8 @@ const server = createServer(async (req, res) => {
       const result = await db.query('SELECT * FROM users WHERE id = $1', [
         userId,
       ]);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result.rows));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('Database error: ' + err.message);
@@ -80,6 +82,8 @@ const server = createServer(async (req, res) => {
           'UPDATE users SET first_name = $1, last_name = $2, age = $3 WHERE id = $4 RETURNING *',
           [first_name, last_name, age, userId]
         );
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result.rows));
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Database error: ' + err.message);
@@ -100,6 +104,8 @@ const server = createServer(async (req, res) => {
         'DELETE FROM users WHERE id = $1 RETURNING *',
         [userId]
       );
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result.rows));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end('Database error: ' + err.message);
