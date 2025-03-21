@@ -7,13 +7,22 @@ const PORT = process.env.PORT || 8080;
 config();
 app.use(express.json());
 
+// Get default route
+app.get('/', async (req, res) => {
+  try {
+    res.json({ message: 'Welcome to the Users API!' });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 // Get all users
 app.get('/users', async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
@@ -24,7 +33,7 @@ app.get('/users/:id', async (req, res) => {
     const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
@@ -36,7 +45,7 @@ app.get('/search', async (req, res) => {
     ]);
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
@@ -48,9 +57,9 @@ app.post('/users', async (req, res) => {
       'INSERT INTO users (first_name, last_name, age) VALUES ($1, $2, $3)',
       [first_name, last_name, age]
     );
-    res.status(201).send('User added successfully!');
+    res.send('User added successfully!');
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
@@ -65,7 +74,7 @@ app.put('/users/:id', async (req, res) => {
     );
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
@@ -80,13 +89,13 @@ app.delete('/users/:id', async (req, res) => {
     );
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.send(err.message);
   }
 });
 
 // Handle 404 errors
 app.use((req, res) => {
-  res.status(404).send('Not Found');
+  res.send('Not Found');
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
