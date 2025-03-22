@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Products from './pages/Products';
 import Test from './pages/Test';
+import UseCodeStatus from './pages/UseCodeStatus';
 import Cart from './components/Cart';
 import Product from './pages/Product';
 import UseActionState from './pages/UseActionState';
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/useActionState" element={<UseActionState />} />
             <Route path="/useOptimistic" element={<UseOptimistic />} />
+            <Route path="/useCodeStatus" element={<UseCodeStatus />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
