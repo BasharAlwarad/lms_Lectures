@@ -1,55 +1,64 @@
-import { useActionState, useOptimistic } from 'react';
 import axios from 'axios';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function UseOptimistic() {
-  const [state, actionFunction, isPending] = useActionState(handleSubmit, {
-    error: null,
-    data: {
-      username: '',
-      email: '',
-      password: '',
-    },
-  });
+export default function UseActionState() {
+  // const [
+  //   {
+  //     data: { username, email, password },
+  //     error,
+  //   },
+  //   actionFunction,
+  //   isPending,
+  // ] = useActionState(handleSubmit, {
+  //   loading: false,
+  //   error: null,
+  //   data: {
+  //     username: '',
+  //     email: '',
+  //     password: '',
+  //   },
+  // });
 
-  // Ensure optimisticState is never undefined
-  const [optimisticState, setOptimisticState] = useOptimistic(
-    state ?? { data: {} }
-  );
-
-  async function handleSubmit(prevState, formData) {
+  async function handleSubmit(formData) {
+    // 'use server';
     const formObject = Object.fromEntries(formData.entries());
-    setOptimisticState({ data: formObject, error: null });
-    try {
-      const { data } = await axios.post(`${API_URL}auth/login`, formObject);
-      return { data: data?.user || {}, error: null };
-    } catch (error) {
-      return { ...prevState, error: error.message };
-    }
+    console.log('Form submitted:', formObject);
   }
 
-  if (isPending) {
-    return (
-      <div className="w-full text-center mx-auto">
-        🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
-      </div>
-    );
-  }
+  // async function handleSubmit(prevState, formData) {
+  //   try {
+  //     const formObject = Object.fromEntries(formData.entries());
+  //     const { data } = await axios.post(`${API_URL}/auth/login`, formObject);
+  //     return { data: data?.user, error: null };
+  //   } catch (error) {
+  //     return { ...prevState, error: error.message };
+  //   }
+  // }
 
-  if (state?.error) {
-    return (
-      <div className="w-full text-center mx-auto">
-        ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ... {state.error} ... ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
-      </div>
-    );
-  }
+  // if (isPending) {
+  //   return (
+  //     <div className="w-full text-center mx-auto">
+  //       🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
+  //     </div>
+  //   );
+  // }
+
+  // if (error) {
+  //   return (
+  //     <div className="w-full text-center mx-auto">
+  //       ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ... {error} ... ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
       <form
         className="bg-white p-6 rounded shadow-md w-full max-w-sm mx-auto"
-        action={actionFunction}
+        action={handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-4">Login Form</h2>
         <div className="mb-4">
@@ -98,35 +107,44 @@ export default function UseOptimistic() {
           />
         </div>
         <div className="flex items-center justify-between">
-          <button
+          {/* <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
             Sign In
-          </button>
+          </button> */}
+          <SubmitButton>Sign In</SubmitButton>
         </div>
       </form>
-
-      {state?.data?.username && (
+      {/* {username && (
         <div className="w-full text-center mx-auto">
-          🎉🎉🎉🎉🎉🎉🎉🎉 ... Welcome {optimisticState.data.username} ...
-          🎉🎉🎉🎉🎉🎉🎉🎉
+          🎉🎉🎉🎉🎉🎉🎉🎉 ... Welcome {username} ... 🎉🎉🎉🎉🎉🎉🎉🎉
         </div>
-      )}
-
-      {state?.data?.email && (
+      )} */}
+      {/* {email && (
         <div className="w-full text-center mx-auto">
-          📧📧📧📧📧📧📧📧 ... Email: {optimisticState.data.email} ...
-          📧📧📧📧📧📧📧📧
+          📧📧📧📧📧📧📧📧 ... Email: {email} ... 📧📧📧📧📧📧📧📧
         </div>
-      )}
-
-      {state?.data?.password && (
+      )} */}
+      {/* {password && (
         <div className="w-full text-center mx-auto">
-          🔒🔒🔒🔒🔒🔒🔒🔒 ... Password: {optimisticState.data.password} ...
-          🔒🔒🔒🔒🔒🔒🔒🔒
+          🔒🔒🔒🔒🔒🔒🔒🔒 ... Password: {password} ... 🔒🔒🔒🔒🔒🔒🔒🔒
         </div>
-      )}
+      )} */}
     </div>
+  );
+}
+
+function SubmitButton({ children, ...rest }) {
+  const { pending, data, method, action } = useFormStatus();
+  return (
+    <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit"
+      disabled={pending}
+      {...rest}
+    >
+      {pending ? 'Submitting...' : children}
+    </button>
   );
 }

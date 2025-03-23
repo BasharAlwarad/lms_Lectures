@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import Nav from './components/Nav';
+import Cart from './components/Cart';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Products from './pages/Products';
 import Test from './pages/Test';
-import UseCodeStatus from './pages/UseCodeStatus';
-import Cart from './components/Cart';
 import Product from './pages/Product';
 import UseActionState from './pages/UseActionState';
 import UseOptimistic from './pages/UseOptimistic';
+import UseFormStatus from './pages/UseFormStatus';
+
 import { CartProvider } from './contexts/CartContext';
 
 export default function App() {
@@ -27,7 +29,7 @@ export default function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/useActionState" element={<UseActionState />} />
             <Route path="/useOptimistic" element={<UseOptimistic />} />
-            <Route path="/useCodeStatus" element={<UseCodeStatus />} />
+            <Route path="/useFormStatus" element={<UseFormStatus />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>

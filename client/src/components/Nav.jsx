@@ -29,8 +29,8 @@ const Nav = () => {
           <NavLink to="/useOptimistic" className={active}>
             useOptimistic
           </NavLink>
-          <NavLink to="/useCodeStates" className={active}>
-            useCodeStates
+          <NavLink to="/useFormStatus" className={active}>
+            useFormStatus
           </NavLink>
           <Cart />
         </div>
