@@ -5,60 +5,55 @@ import { useFormStatus } from 'react-dom';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function UseActionState() {
-  // const [
-  //   {
-  //     data: { username, email, password },
-  //     error,
-  //   },
-  //   actionFunction,
-  //   isPending,
-  // ] = useActionState(handleSubmit, {
-  //   loading: false,
-  //   error: null,
-  //   data: {
-  //     username: '',
-  //     email: '',
-  //     password: '',
-  //   },
-  // });
+  const [
+    {
+      data: { username, email, password },
+      error,
+    },
+    actionFunction,
+    isPending,
+  ] = useActionState(handleSubmit, {
+    loading: false,
+    error: null,
+    data: {
+      username: '',
+      email: '',
+      password: '',
+    },
+  });
 
-  async function handleSubmit(formData) {
-    // 'use server';
-    const formObject = Object.fromEntries(formData.entries());
-    console.log('Form submitted:', formObject);
+  async function handleSubmit(prevState, formData) {
+    try {
+      const formObject = Object.fromEntries(formData.entries());
+      console.log('Form submitted:', formObject);
+      const { data } = await axios.post(`${API_URL}auth/login`, formObject);
+      return { data: data?.user, error: null };
+    } catch (error) {
+      return { ...prevState, error: error.message };
+    }
   }
 
-  // async function handleSubmit(prevState, formData) {
-  //   try {
-  //     const formObject = Object.fromEntries(formData.entries());
-  //     const { data } = await axios.post(`${API_URL}/auth/login`, formObject);
-  //     return { data: data?.user, error: null };
-  //   } catch (error) {
-  //     return { ...prevState, error: error.message };
-  //   }
-  // }
+  if (isPending) {
+    return (
+      <div className="w-full text-center mx-auto">
+        🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
+      </div>
+    );
+  }
 
-  // if (isPending) {
-  //   return (
-  //     <div className="w-full text-center mx-auto">
-  //       🤖🤖🤖🤖🤖🤖🤖🤖 ... LOADING ... 🤖🤖🤖🤖🤖🤖🤖🤖
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <div className="w-full text-center mx-auto">
-  //       ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ... {error} ... ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
-  //     </div>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div className="w-full text-center mx-auto">
+        ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ... {error} ... ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+      </div>
+    );
+  }
 
   return (
     <div>
       <form
         className="bg-white p-6 rounded shadow-md w-full max-w-sm mx-auto"
-        action={handleSubmit}
+        action={actionFunction}
       >
         <h2 className="text-2xl font-bold mb-4">Login Form</h2>
         <div className="mb-4">
@@ -116,21 +111,21 @@ export default function UseActionState() {
           <SubmitButton>Sign In</SubmitButton>
         </div>
       </form>
-      {/* {username && (
+      {username && (
         <div className="w-full text-center mx-auto">
           🎉🎉🎉🎉🎉🎉🎉🎉 ... Welcome {username} ... 🎉🎉🎉🎉🎉🎉🎉🎉
         </div>
-      )} */}
-      {/* {email && (
+      )}
+      {email && (
         <div className="w-full text-center mx-auto">
           📧📧📧📧📧📧📧📧 ... Email: {email} ... 📧📧📧📧📧📧📧📧
         </div>
-      )} */}
-      {/* {password && (
+      )}
+      {password && (
         <div className="w-full text-center mx-auto">
           🔒🔒🔒🔒🔒🔒🔒🔒 ... Password: {password} ... 🔒🔒🔒🔒🔒🔒🔒🔒
         </div>
-      )} */}
+      )}
     </div>
   );
 }
