@@ -1,103 +1,111 @@
 import express from 'express';
-import db from './db.js';
+import { Sequelize, DataTypes } from 'sequelize';
 import { config } from 'dotenv';
 import cors from 'cors';
 
-const app = express();
-const PORT = process.env.PORT;
 config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
 app.use(cors());
 
-// Get default route
-app.get('/', async (req, res) => {
-  try {
-    res.json({ message: 'Welcome to the Users API!' });
-  } catch (err) {
-    res.status(500).send(err.message);
+// Initialize Sequelize
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  logging: false,
+});
+
+const User = sequelize.define(
+  'User',
+  {
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: 'users',
+    timestamps: true,
   }
+);
+
+// Sync database
+sequelize.sync();
+
+// Default route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the Users API!' });
 });
 
 // Get all users
 app.get('/users', async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM users');
-    res.json(result.rows);
+    const users = await User.findAll();
+    res.json(users);
   } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 // Get user by ID
 app.get('/users/:id', async (req, res) => {
-  const { id } = req.params;
   try {
-    const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-    res.json(result.rows);
+    const user = await User.findByPk(req.params.id);
+    res.json(user);
   } catch (err) {
-    res.send(err.message);
-  }
-});
-
-app.get('/search', async (req, res) => {
-  const { column, value } = req.query;
-  try {
-    const result = await db.query(`SELECT * FROM users WHERE ${column} = $1`, [
-      value,
-    ]);
-    res.json(result.rows);
-  } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 // Add a new user
 app.post('/users', async (req, res) => {
-  const { first_name, last_name, age } = req.body;
   try {
-    await db.query(
-      'INSERT INTO users (first_name, last_name, age) VALUES ($1, $2, $3)',
-      [first_name, last_name, age]
-    );
-    res.send('User added successfully!');
+    const user = await User.create(req.body);
+    res.json(user);
   } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 // Update a user by ID
 app.put('/users/:id', async (req, res) => {
-  const { id } = req.params;
-  const { first_name, last_name, age } = req.body;
   try {
-    const result = await db.query(
-      'UPDATE users SET first_name = $1, last_name = $2, age = $3 WHERE id = $4 RETURNING *',
-      [first_name, last_name, age, id]
-    );
-    res.json(result.rows);
+    await User.update(req.body, { where: { id: req.params.id } });
+    const updatedUser = await User.findByPk(req.params.id);
+    res.json(updatedUser);
   } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 // Delete a user by ID
 app.delete('/users/:id', async (req, res) => {
-  const { id } = req.params;
   try {
-    await db.query('DELETE FROM orders WHERE user_id = $1', [id]); // Delete related orders first
-    const result = await db.query(
-      'DELETE FROM users WHERE id = $1 RETURNING *',
-      [id]
-    );
-    res.json(result.rows);
+    const user = await User.findByPk(req.params.id);
+    if (user) {
+      await user.destroy();
+      res.json({ message: 'User deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
   } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 // Handle 404 errors
 app.use((req, res) => {
-  res.send('Not Found');
+  res.status(404).send('Not Found');
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
