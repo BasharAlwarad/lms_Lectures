@@ -11,7 +11,7 @@ function UpdateUser() {
     const fetchUser = async () => {
       try {
         const res = await axios.get(`${APIURL}users/${id}`);
-        setUser(res.data[0]);
+        setUser(res.data);
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -27,8 +27,7 @@ function UpdateUser() {
     e.preventDefault();
     try {
       const res = await axios.put(`${APIURL}users/${id}`, user);
-      console.log(res.data[0]);
-      setUser(res.data[0]);
+      setUser(res.data);
     } catch (error) {
       console.error('Error updating user:', error);
     }
