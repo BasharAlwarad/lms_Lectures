@@ -1,11 +1,13 @@
 import express from 'express';
 import db from './db.js';
 import { config } from 'dotenv';
+import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 config();
 app.use(express.json());
+app.use(cors());
 
 // Get default route
 app.get('/', async (req, res) => {
