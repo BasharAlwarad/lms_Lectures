@@ -17,9 +17,16 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: false,
 });
 
+// Define User model with timestamps
 const User = sequelize.define(
   'User',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -35,12 +42,14 @@ const User = sequelize.define(
   },
   {
     tableName: 'users',
-    timestamps: false,
+    timestamps: true,
   }
 );
 
-// Sync database
-sequelize.sync();
+sequelize
+  .sync({ force: true })
+  .then(() => console.log('✅ Database synced (force: true)'))
+  .catch((err) => console.error('❌ Sync failed:', err));
 
 // Default route
 app.get('/', (req, res) => {
