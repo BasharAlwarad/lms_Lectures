@@ -21,28 +21,36 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 const User = sequelize.define(
   'User',
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-    },
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [2, 50],
+      },
     },
     last_name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [2, 50],
+      },
     },
     age: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        isInt: true,
+        min: 1,
+        max: 120,
+      },
     },
   },
   {
     tableName: 'users',
     timestamps: true,
+    underscored: true,
   }
 );
 
