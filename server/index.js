@@ -9,7 +9,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(cors());
 
 // Initialize Sequelize
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -54,10 +53,13 @@ const User = sequelize.define(
   }
 );
 
-sequelize
-  .sync({ force: true })
-  .then(() => console.log('✅ Database synced (force: true)'))
-  .catch((err) => console.error('❌ Sync failed:', err));
+sequelize.sync();
+
+// TODO:not important
+// sequelize
+//   .sync({ force: true })
+//   .then(() => console.log('✅ Database synced (force: true)'))
+//   .catch((err) => console.error('❌ Sync failed:', err));
 
 // Default route
 app.get('/', (req, res) => {
