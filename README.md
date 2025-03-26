@@ -8,7 +8,7 @@ This project is a simple Node.js backend API built with Express.js and Sequelize
 
 Before running the project, make sure you have the following installed:
 
-- Node.js (LTS version)
+- Node.js
 - npm (Node Package Manager)
 - A relational database (e.g., PostgreSQL, MySQL, SQLite)
 
