@@ -2,8 +2,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
 
-import User from './models/user.js'; // Import User model
-import Order from './models/order.js'; // Import Order model
+import { User, Order } from './models/index.js'; // Import User model
 
 config(); // Load environment variables
 
@@ -101,7 +100,7 @@ app.get('/orders', async (req, res) => {
 });
 
 // Get an order by ID
-app.get('/orders/:id', async (req, res) => {
+app.get('/orders/order/:id', async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id); // Fetch order by primary key (id)
     if (order) {
@@ -125,7 +124,7 @@ app.post('/orders', async (req, res) => {
 });
 
 // Update an order by ID
-app.put('/orders/:id', async (req, res) => {
+app.put('/orders/order/:id', async (req, res) => {
   try {
     await Order.update(req.body, { where: { id: req.params.id } }); // Update order data
     const updatedOrder = await Order.findByPk(req.params.id); // Fetch updated order
@@ -136,7 +135,7 @@ app.put('/orders/:id', async (req, res) => {
 });
 
 // Delete an order by ID
-app.delete('/orders/:id', async (req, res) => {
+app.delete('/orders/order/:id', async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id);
     if (order) {
@@ -145,6 +144,83 @@ app.delete('/orders/:id', async (req, res) => {
     } else {
       res.status(404).json({ message: 'Order not found' });
     }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+/**
+ * ===========================
+ *      ORDER & USER JOINS
+ * ===========================
+ */
+
+// INNER JOIN: Get users who have placed orders
+app.get('/orders/inner-join', async (req, res) => {
+  try {
+    const result = await User.findAll({
+      include: {
+        model: Order, // Join with Order table
+        required: true, // INNER JOIN: Only users with orders
+      },
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// LEFT JOIN: Get all users, even those without orders
+app.get('/orders/left-join', async (req, res) => {
+  try {
+    const result = await User.findAll({
+      include: {
+        model: Order,
+        required: false, // LEFT JOIN: All users, even without orders
+      },
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// RIGHT JOIN: Get all orders, even those without users (Sequelize does not support RIGHT JOIN directly)
+app.get('/orders/right-join', async (req, res) => {
+  try {
+    const result = await Order.findAll({
+      include: {
+        model: User,
+        required: false, // Simulating RIGHT JOIN by querying Order table
+      },
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// FULL OUTER JOIN (not natively supported, simulated using UNION of LEFT and RIGHT joins)
+app.get('/orders/full-join', async (req, res) => {
+  try {
+    const leftJoin = await User.findAll({
+      include: {
+        model: Order,
+        required: false, // LEFT JOIN
+      },
+    });
+
+    const rightJoin = await Order.findAll({
+      include: {
+        model: User,
+        required: false, // RIGHT JOIN
+      },
+    });
+
+    // Merge both results (simulate FULL OUTER JOIN)
+    const fullJoinResult = [...leftJoin, ...rightJoin];
+
+    res.json(fullJoinResult);
   } catch (err) {
     res.status(500).send(err.message);
   }
