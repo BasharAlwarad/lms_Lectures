@@ -105,7 +105,8 @@ export const rightJoin = async (req, res) => {
   }
 };
 
-// FULL OUTER JOIN (not natively supported, simulated using UNION of LEFT and RIGHT joins)
+// FULL OUTER JOIN: Get all users and orders
+// This is a simulation of FULL OUTER JOIN in Sequelize
 export const fullJoin = async (req, res) => {
   try {
     const leftJoin = await User.findAll({
