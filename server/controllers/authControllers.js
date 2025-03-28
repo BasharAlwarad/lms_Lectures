@@ -1,36 +1,37 @@
 import User from '../models/user.js';
+import { CustomError } from '../utils/errorHandler.js';
 
 // Create new user
-export const signUp = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
-    res.json(user);
+    const user = await User.create(req.body); // Create a new user
+    res.status(201).json(user); // Respond with the created user and status 201 (Created)
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Failed to create user', 500)); // Pass error to the error handler
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { user_email, user_password } = req.body;
 
     // Check if the user exists
     const user = await User.findOne({ where: { user_email } });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return next(new CustomError('User not found', 404)); // User not found
     }
 
     // Compare passwords
     if (user_password !== user.user_password) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return next(new CustomError('Invalid credentials', 401)); // Invalid credentials
     }
 
-    res.json({
+    res.status(200).json({
       message: 'Login successful',
       user: { id: user.id, email: user.user_email },
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    next(new CustomError('Internal server error', 500)); // Pass error to the error handler
   }
 };

@@ -7,10 +7,12 @@ import {
   deleteUser,
 } from '../controllers/userControllers.js';
 
+import { auth } from '../middlewares/authMiddleware.js'; // Import your auth middleware
+
 const router = express.Router();
 
 // User Routes
-router.get('/', getUsers);
+router.get('/', auth, getUsers);
 router.get('/:id', getUserById);
 router.post('/', createUser);
 router.put('/:id', updateUser);
