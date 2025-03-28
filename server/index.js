@@ -5,6 +5,8 @@ import userRoutes from './routes/userRoutes.js'; // Import user routes
 import orderRoutes from './routes/orderRoutes.js'; // Import order routes
 import authRoutes from './routes/authRoutes.js'; // Import order routes
 
+import { discountMiddleware } from './middlewares/discountMiddleware.js';
+
 import { errorHandler } from './utils/errorHandler.js';
 
 config(); // Load environment variables
