@@ -1,61 +1,65 @@
 import { User } from '../models/index.js';
+import { CustomError } from '../utils/errorHandler.js';
 
 // Get all users
-export const getUsers = async (req, res) => {
+export const getUsers = async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.json(users);
+    const users = await User.findAll(); // Fetch all users from the database.
+    res.status(200).json(users); // Respond with the user data and status 200 (OK).
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Failed to fetch users', 500)); // Handle server error.
   }
 };
 
 // Get user by ID
-export const getUserById = async (req, res) => {
+export const getUserById = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    const user = await User.findByPk(req.params.id); // Find a user by primary key (ID).
+    if (!user) {
+      return next(new CustomError('User not found', 404)); // User does not exist.
     }
+    res.status(200).json(user); // Respond with the user data and status 200 (OK).
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Failed to retrieve user', 500)); // Handle server error.
   }
 };
 
-// Create new user
-export const createUser = async (req, res) => {
+// Create a new user
+export const createUser = async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
-    res.json(user);
+    const user = await User.create(req.body); // Create a new user using request body data.
+    res.status(201).json(user); // Respond with the created user data and status 201 (Created).
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Invalid user data', 400)); // Validation error (bad request).
   }
 };
 
 // Update user by ID
-export const updateUser = async (req, res) => {
+export const updateUser = async (req, res, next) => {
   try {
-    await User.update(req.body, { where: { id: req.params.id } });
-    const updatedUser = await User.findByPk(req.params.id);
-    res.json(updatedUser);
+    const [updated] = await User.update(req.body, {
+      where: { id: req.params.id },
+    }); // Update user data.
+    if (!updated) {
+      return next(new CustomError('User not found', 404)); // User does not exist.
+    }
+    const updatedUser = await User.findByPk(req.params.id); // Fetch the updated user data.
+    res.status(200).json(updatedUser); // Respond with the updated user data and status 200 (OK).
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Failed to update user', 500)); // Handle server error.
   }
 };
 
 // Delete user by ID
-export const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (user) {
-      await user.destroy();
-      res.json({ message: 'User deleted successfully' });
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    const user = await User.findByPk(req.params.id); // Find the user by ID.
+    if (!user) {
+      return next(new CustomError('User not found', 404)); // User does not exist.
     }
+    await user.destroy(); // Delete the user.
+    res.status(200).json({ message: 'User deleted successfully' }); // Success response.
   } catch (err) {
-    res.status(500).send(err.message);
+    next(new CustomError('Failed to delete user', 500)); // Handle server error.
   }
 };

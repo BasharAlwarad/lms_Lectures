@@ -5,6 +5,8 @@ import userRoutes from './routes/userRoutes.js'; // Import user routes
 import orderRoutes from './routes/orderRoutes.js'; // Import order routes
 import authRoutes from './routes/authRoutes.js'; // Import order routes
 
+import { errorHandler } from './utils/errorHandler.js';
+
 config(); // Load environment variables
 
 const app = express();
@@ -27,6 +29,9 @@ app.use('/auth', authRoutes);
 app.use((req, res) => {
   res.status(404).send('Not Found');
 });
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Start the server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
