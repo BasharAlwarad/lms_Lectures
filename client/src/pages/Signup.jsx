@@ -3,7 +3,13 @@ import axios from 'axios';
 
 function Signup() {
   const APIURL = import.meta.env.VITE_API_URL;
-  const [user, setUser] = useState({ first_name: '', last_name: '', age: '' });
+  const [user, setUser] = useState({
+    first_name: '',
+    last_name: '',
+    age: '',
+    user_email: '',
+    user_password: '',
+  });
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -12,9 +18,16 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${APIURL}users`, user);
+      const res = await axios.post(`${APIURL}auth/signup`, user);
       console.log('User created:', res.data);
-      setUser({ first_name: '', last_name: '', age: '' }); // Reset form after successful signup
+      // Reset form after successful signup
+      setUser({
+        first_name: '',
+        last_name: '',
+        age: '',
+        user_email: '',
+        user_password: '',
+      });
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -53,6 +66,26 @@ function Signup() {
             type="number"
             name="age"
             value={user.age}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Email</label>
+          <input
+            type="email"
+            name="user_email"
+            value={user.user_email}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Password</label>
+          <input
+            type="password"
+            name="user_password"
+            value={user.user_password}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />

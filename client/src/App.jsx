@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Home from './pages/Home';
 import User from './pages/User';
 import UpdateUser from './pages/UpdateUser';
 import Signup from './pages/Signup';
+import Login from './pages/Login';
+
 import Nav from './components/Nav';
 
 function App() {
@@ -16,6 +19,7 @@ function App() {
             <Route path="/user/:id" element={<User />} />
             <Route path="/updateuser/:id" element={<UpdateUser />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </div>
