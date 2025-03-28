@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js'; // Import user routes
 import orderRoutes from './routes/orderRoutes.js'; // Import order routes
+import authRoutes from './routes/authRoutes.js'; // Import order routes
 
 config(); // Load environment variables
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 // Use imported routes
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
+app.use('/auth', authRoutes);
 
 // Handle 404 errors (for any undefined routes)
 app.use((req, res) => {

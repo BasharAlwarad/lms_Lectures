@@ -37,6 +37,23 @@ const User = sequelize.define(
         max: 120,
       },
     },
+    user_email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+      },
+    },
+    user_password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [6, 100],
+      },
+    },
   },
   {
     tableName: 'users',
