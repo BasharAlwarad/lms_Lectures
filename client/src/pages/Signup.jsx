@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-function Signup() {
+function FileUpload() {
   const APIURL = import.meta.env.VITE_API_URL;
   const [user, setUser] = useState({
     first_name: '',
@@ -9,17 +9,43 @@ function Signup() {
     age: '',
     user_email: '',
     user_password: '',
+    user_image: null, // Add user image field
   });
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (files) {
+      setUser((prevState) => ({
+        ...prevState,
+        [name]: files[0], // Store the selected file
+      }));
+    } else {
+      setUser((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${APIURL}auth/signup`, user);
+      const formData = new FormData();
+      formData.append('first_name', user.first_name);
+      formData.append('last_name', user.last_name);
+      formData.append('age', user.age);
+      formData.append('user_email', user.user_email);
+      formData.append('user_password', user.user_password);
+      if (user.user_image) {
+        formData.append('user_image', user.user_image); // Append image if provided
+      }
+
+      const res = await axios.post(`${APIURL}auth/signup`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
       console.log('User created:', res.data);
+
       // Reset form after successful signup
       setUser({
         first_name: '',
@@ -27,6 +53,7 @@ function Signup() {
         age: '',
         user_email: '',
         user_password: '',
+        user_image: null,
       });
     } catch (error) {
       console.error('Error creating user:', error);
@@ -90,6 +117,16 @@ function Signup() {
             className="w-full p-2 border rounded"
           />
         </div>
+        <div>
+          <label className="block font-semibold">Profile Image</label>
+          <input
+            type="file"
+            name="user_image"
+            accept="image/*"
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
         <button
           type="submit"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -101,4 +138,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default FileUpload;

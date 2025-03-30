@@ -1,5 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
+import path from 'path';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js'; // Import user routes
 import orderRoutes from './routes/orderRoutes.js'; // Import order routes
@@ -21,6 +22,12 @@ app.use(cors()); // Enable CORS to allow cross-origin requests
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the API!' });
 });
+
+// Serve static files from the "usersImages" folder
+app.use(
+  '/usersImages',
+  express.static(path.join(process.cwd(), 'usersImages'))
+);
 
 // Use imported routes
 app.use('/users', userRoutes);

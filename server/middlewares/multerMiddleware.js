@@ -2,7 +2,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Ensure the "usersImages" directory exists
+// Create the directory if it doesn't exist
 const uploadDir = path.join('usersImages');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
