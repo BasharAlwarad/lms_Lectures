@@ -10,6 +10,10 @@ import {
   rightJoin,
   fullJoin,
 } from '../controllers/orderControllers.js';
+import {
+  validateCreateOrder,
+  validateUpdateOrder,
+} from '../middlewares/validationMiddleware.js'; // Import validation middleware
 
 const router = express.Router();
 import { discountMiddleware } from '../middlewares/discountMiddleware.js';
@@ -17,9 +21,9 @@ import { discountMiddleware } from '../middlewares/discountMiddleware.js';
 // Order Routes
 router.get('/', getOrders);
 router.get('/order/:id', getOrderById);
-router.post('/', createOrder);
-router.post('/wd60', discountMiddleware, createOrder);
-router.put('/order/:id', updateOrder);
+router.post('/', validateCreateOrder, createOrder); // Apply validation to createOrder
+router.post('/wd60', discountMiddleware, validateCreateOrder, createOrder); // Apply validation with discount middleware
+router.put('/order/:id', validateUpdateOrder, updateOrder); // Apply validation to updateOrder
 router.delete('/order/:id', deleteOrder);
 
 // Order Joins Routes
