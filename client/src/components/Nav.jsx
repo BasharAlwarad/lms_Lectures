@@ -36,6 +36,16 @@ function Navbar() {
           >
             Signup
           </NavLink>
+          <NavLink
+            to="/fileupload"
+            className={({ isActive }) =>
+              isActive
+                ? 'text-white font-semibold border-b-2 border-white'
+                : 'text-gray-200 hover:text-white'
+            }
+          >
+            File Upload
+          </NavLink>
         </div>
       </div>
     </nav>

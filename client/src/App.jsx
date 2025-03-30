@@ -5,6 +5,7 @@ import User from './pages/User';
 import UpdateUser from './pages/UpdateUser';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import FileUpload from './pages/FileUpload';
 
 import Nav from './components/Nav';
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/updateuser/:id" element={<UpdateUser />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/fileupload" element={<FileUpload />} />
           </Routes>
         </div>
       </div>

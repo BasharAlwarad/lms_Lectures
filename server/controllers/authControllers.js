@@ -1,15 +1,39 @@
 import User from '../models/user.js';
 import { CustomError } from '../utils/errorHandler.js';
 
-// Create new user
+// Signup new user
 export const signUp = async (req, res, next) => {
   try {
-    const user = await User.create(req.body); // Create a new user
-    res.status(201).json(user); // Respond with the created user and status 201 (Created)
+    // Extract user details from request body
+    const { first_name, last_name, age, user_email, user_password } = req.body;
+
+    // Save the file path if an image was uploaded
+    const user_image = req.file ? req.file.filename : null;
+
+    // Create a new user in the database (without the image path)
+    const newUser = await User.create({
+      first_name,
+      last_name,
+      age,
+      user_email,
+      user_password,
+      user_image,
+    });
+
+    res.status(201).json({ message: 'User created successfully', newUser });
   } catch (err) {
-    next(new CustomError('Failed to create user', 500)); // Pass error to the error handler
+    next(new CustomError('Failed to create user', 500));
   }
 };
+
+// export const signUp = async (req, res, next) => {
+//   try {
+//     const user = await User.create(req.body); // Create a new user
+//     res.status(201).json(user); // Respond with the created user and status 201 (Created)
+//   } catch (err) {
+//     next(new CustomError('Failed to create user', 500)); // Pass error to the error handler
+//   }
+// };
 
 export const login = async (req, res, next) => {
   try {
