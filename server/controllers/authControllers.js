@@ -26,15 +26,6 @@ export const signUp = async (req, res, next) => {
   }
 };
 
-// export const signUp = async (req, res, next) => {
-//   try {
-//     const user = await User.create(req.body); // Create a new user
-//     res.status(201).json(user); // Respond with the created user and status 201 (Created)
-//   } catch (err) {
-//     next(new CustomError('Failed to create user', 500)); // Pass error to the error handler
-//   }
-// };
-
 export const login = async (req, res, next) => {
   try {
     const { user_email, user_password } = req.body;
