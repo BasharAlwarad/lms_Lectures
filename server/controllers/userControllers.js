@@ -1,5 +1,6 @@
 import { User } from '../models/index.js';
 import { CustomError } from '../utils/errorHandler.js';
+import { Op } from 'sequelize';
 
 // Get all users
 export const getUsers = async (req, res, next) => {
@@ -61,5 +62,23 @@ export const deleteUser = async (req, res, next) => {
     res.status(200).json({ message: 'User deleted successfully' }); // Success response.
   } catch (err) {
     next(new CustomError('Failed to delete user', 500)); // Handle server error.
+  }
+};
+
+// Search users by first name, last name, or email
+export const searchUsers = async (req, res, next) => {
+  try {
+    const { first_name, last_name, user_email } = req.query; // Extract search parameters
+
+    const whereClause = {};
+    if (first_name) whereClause.first_name = { [Op.iLike]: `%${first_name}%` };
+    if (last_name) whereClause.last_name = { [Op.iLike]: `%${last_name}%` };
+    if (user_email) whereClause.user_email = { [Op.iLike]: `%${user_email}%` };
+
+    const users = await User.findAll({ where: whereClause });
+
+    res.status(200).json(users);
+  } catch (err) {
+    next(new CustomError('Failed to search users', 500));
   }
 };
