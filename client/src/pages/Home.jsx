@@ -26,7 +26,7 @@ function Home() {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`${APIURL}users/${id}`);
+      await axios.delete(`${APIURL}users/user/${id}`);
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
       console.error('Error deleting user:', error);

@@ -10,7 +10,7 @@ function UpdateUser() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${APIURL}users/${id}`);
+        const res = await axios.get(`${APIURL}users/user/${id}`);
         setUser(res.data);
       } catch (error) {
         console.error('Error fetching user:', error);

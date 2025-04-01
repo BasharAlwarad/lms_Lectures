@@ -11,7 +11,7 @@ function User() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${APIURL}users/${id}`);
+        const res = await axios.get(`${APIURL}users/user/${id}`);
         console.log(res.data);
         setUser(res.data);
       } catch (error) {
