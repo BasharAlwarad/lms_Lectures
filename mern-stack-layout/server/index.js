@@ -23,6 +23,7 @@ app.use(`/api/v1/users`, userRoutes);
 app.get(/.*/, (req, res) => {
   res.status(404).send("Page doesn't exist");
 });
+
 app.listen(PORT, () => {
   console.log(`Server is 🏃 in ${MODE} mode on ${PORT}`);
 });
