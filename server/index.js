@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
-const MODE = process.env.MODE;
+const MODE = process.env.NODE_ENV;
 
 app.use(cors());
 app.use(express.json());
